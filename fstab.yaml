@@ -1,6 +1,6 @@
 mountpoints:
   /:
-    url: "https://author-p130360-e1272151.adobeaemcloud.com/bin/franklin.delivery/adobe-rnd/aem-boilerplate-xcom/main"
+    url: "https://author-p156135-e1655535.adobeaemcloud.com/bin/franklin.delivery/mohand88/cultura-aem-eds-poc/main"
     type: "markup"
     suffix: ".html"
 folders:
