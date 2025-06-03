@@ -1,8 +1,8 @@
 {
   "public": {
     "default": {
-      "commerce-core-endpoint": "https://aem.one-int-upgrade.cultura.com/magento/graphql",
-      "commerce-endpoint": "https://aem.one-int-upgrade.cultura.com/magento/cs-graphql",
+      "commerce-core-endpoint": "http://localhost:4000/proxy/graphql",
+      "commerce-endpoint": "http://localhost:4000/proxy/cs-graphql",
       "headers": {
         "all": {
           "Store": "default"
