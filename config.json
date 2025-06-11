@@ -2,7 +2,7 @@
   "public": {
     "default": {
       "commerce-core-endpoint": "http://localhost:4000/proxy/graphql",
-      "commerce-endpoint": "http://localhost:4000/proxy/cs-graphql",
+      "commerce-endpoint": "http://localhost:4000/proxy/graphql",
       "headers": {
         "all": {
           "Store": "default"
