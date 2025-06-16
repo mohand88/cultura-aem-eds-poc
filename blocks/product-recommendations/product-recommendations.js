@@ -339,18 +339,18 @@ export default async function decorate(block) {
   }
 
   window.adobeDataLayer.push((dl) => {
-    dl.addEventListener("adobeDataLayer:change", handlePageTypeChanges, {
-      path: "pageContext",
-    });
-    dl.addEventListener("adobeDataLayer:change", handleProductChanges, {
-      path: "productContext",
-    });
-    dl.addEventListener("adobeDataLayer:change", handleCategoryChanges, {
-      path: "categoryContext",
-    });
-    dl.addEventListener("adobeDataLayer:change", handleCartChanges, {
-      path: "shoppingCartContext",
-    });
+    // dl.addEventListener("adobeDataLayer:change", handlePageTypeChanges, {
+    //   path: "pageContext",
+    // });
+    // dl.addEventListener("adobeDataLayer:change", handleProductChanges, {
+    //   path: "productContext",
+    // });
+    // dl.addEventListener("adobeDataLayer:change", handleCategoryChanges, {
+    //   path: "categoryContext",
+    // });
+    // dl.addEventListener("adobeDataLayer:change", handleCartChanges, {
+    //   path: "shoppingCartContext",
+    // });
   });
 
   if (isMobile) {

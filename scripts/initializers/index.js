@@ -1,12 +1,12 @@
 /* eslint-disable import/no-cycle */
 // Drop-in Tools
+import * as authApi from '@dropins/storefront-auth/api.js';
 import { events } from '@dropins/tools/event-bus.js';
 import {
   removeFetchGraphQlHeader,
   setEndpoint,
   setFetchGraphQlHeader,
 } from '@dropins/tools/fetch-graphql.js';
-import * as authApi from '@dropins/storefront-auth/api.js';
 
 // Libs
 import { getConfigValue, getCookie } from '../configs.js';
@@ -57,14 +57,16 @@ export default async function initializeDropins() {
 
     events.on('aem/lcp', async () => {
       // Recaptcha
-      await import('@dropins/tools/recaptcha.js').then(({ setConfig }) => {
-        setConfig();
-      });
+      // await import('@dropins/tools/recaptcha.js').then(({ setConfig }) => {
+      //   setConfig();
+      // });
     });
   };
 
   // re-initialize on prerendering changes
-  document.addEventListener('prerenderingchange', initializeDropins, { once: true });
+  document.addEventListener('prerenderingchange', initializeDropins, {
+    once: true,
+  });
 
   return init();
 }
@@ -81,7 +83,9 @@ export function initializeDropin(cb) {
   };
 
   // re-initialize on prerendering changes
-  document.addEventListener('prerenderingchange', () => init(true), { once: true });
+  document.addEventListener('prerenderingchange', () => init(true), {
+    once: true,
+  });
 
   return init;
 }
