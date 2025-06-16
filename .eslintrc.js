@@ -1,30 +1,35 @@
 module.exports = {
   root: true,
   extends: [
-    'airbnb-base',
-    'plugin:json/recommended',
-    'plugin:xwalk/recommended',
+    "airbnb-base",
+    "plugin:json/recommended",
+    "plugin:xwalk/recommended",
   ],
   env: {
     browser: true,
   },
-  parser: '@babel/eslint-parser',
+  parser: "@babel/eslint-parser",
   parserOptions: {
     allowImportExportEverywhere: true,
-    sourceType: 'module',
+    sourceType: "module",
     requireConfigFile: false,
   },
   rules: {
-    'import/extensions': ['error', { js: 'always' }], // require js file extensions in imports
-    'linebreak-style': ['error', 'unix'], // enforce unix linebreaks
-    'no-param-reassign': [2, { props: false }], // allow modifying properties of param
-    'no-use-before-define': [2, { functions: false }],
-    'no-console': [
-      'error',
-      {
-        allow: ['warn', 'error', 'info', 'debug'],
-      },
+    "import/extensions": ["error", { js: "always" }], // require js file extensions in imports
+    "linebreak-style": ["error", "unix"], // enforce unix linebreaks
+    "no-param-reassign": [2, { props: false }], // allow modifying properties of param
+    "no-use-before-define": [2, { functions: false }],
+    "no-console": "off",
+    "no-unused-vars": [
+      "error",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
     ],
-    'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    "operator-linebreak": "off", // désactive la règle des sauts de ligne autour des opérateurs
+    "no-mixed-operators": "off", // désactive la règle des opérateurs mixtes
+    "implicit-arrow-linebreak": "off", // désactive la règle des sauts de ligne dans les fonctions fléchées
+    "function-paren-newline": "off", // désactive la règle des sauts de ligne avant les parenthèses
+    "no-underscore-dangle": "off", // autorise les underscores dans les noms de variables
+    "padding-line-between-statements": "off", // désactive la règle des lignes vides entre les blocs
+    quotes: "off",
   },
 };

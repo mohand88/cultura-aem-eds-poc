@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Starter project for Adobe Commerce on Edge Delivery Services",
   "scripts": {
-    "start": "aem up --url https://main--aem-boilerplate-commerce--hlxsites.aem.page",
+    "start": "aem up",
     "install:dropins": "node build.mjs && node postinstall.js",
     "postinstall": "npm run install:dropins",
     "postupdate": "npm run install:dropins",
