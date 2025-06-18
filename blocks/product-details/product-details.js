@@ -1,36 +1,38 @@
 /* eslint-disable import/no-unresolved */
+/* eslint-disable padding-line-between-statements */
 
+import * as pdpApi from '@dropins/storefront-pdp/api.js';
+import { render as pdpRendered } from '@dropins/storefront-pdp/render.js';
 import {
-  InLineAlert,
-  Icon,
   Button,
+  Icon,
+  InLineAlert,
   provider as UI,
 } from '@dropins/tools/components.js';
 import { events } from '@dropins/tools/event-bus.js';
-import * as pdpApi from '@dropins/storefront-pdp/api.js';
-import { render as pdpRendered } from '@dropins/storefront-pdp/render.js';
 
 // Containers
-import ProductHeader from '@dropins/storefront-pdp/containers/ProductHeader.js';
-import ProductPrice from '@dropins/storefront-pdp/containers/ProductPrice.js';
-import ProductShortDescription from '@dropins/storefront-pdp/containers/ProductShortDescription.js';
-import ProductOptions from '@dropins/storefront-pdp/containers/ProductOptions.js';
-import ProductQuantity from '@dropins/storefront-pdp/containers/ProductQuantity.js';
-import ProductDescription from '@dropins/storefront-pdp/containers/ProductDescription.js';
 import ProductAttributes from '@dropins/storefront-pdp/containers/ProductAttributes.js';
+import ProductDescription from '@dropins/storefront-pdp/containers/ProductDescription.js';
 import ProductGallery from '@dropins/storefront-pdp/containers/ProductGallery.js';
+import ProductHeader from '@dropins/storefront-pdp/containers/ProductHeader.js';
+import ProductOptions from '@dropins/storefront-pdp/containers/ProductOptions.js';
+import ProductPrice from '@dropins/storefront-pdp/containers/ProductPrice.js';
+import ProductQuantity from '@dropins/storefront-pdp/containers/ProductQuantity.js';
+import ProductShortDescription from '@dropins/storefront-pdp/containers/ProductShortDescription.js';
 
 // Libs
-import { fetchPlaceholders, setJsonLd } from '../../scripts/commerce.js';
+import { fetchPlaceholders } from '../../scripts/commerce.js';
 
 // Initializers
-import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
 import '../../scripts/initializers/cart.js';
-import { rootLink } from '../../scripts/scripts.js';
+import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
 
 export default async function decorate(block) {
   // eslint-disable-next-line no-underscore-dangle
+
   const product = events._lastEvent?.['pdp/data']?.payload ?? null;
+
   const labels = await fetchPlaceholders();
 
   // Layout
@@ -63,12 +65,20 @@ export default async function decorate(block) {
   const $gallery = fragment.querySelector('.product-details__gallery');
   const $header = fragment.querySelector('.product-details__header');
   const $price = fragment.querySelector('.product-details__price');
-  const $galleryMobile = fragment.querySelector('.product-details__right-column .product-details__gallery');
-  const $shortDescription = fragment.querySelector('.product-details__short-description');
+  const $galleryMobile = fragment.querySelector(
+    '.product-details__right-column .product-details__gallery',
+  );
+  const $shortDescription = fragment.querySelector(
+    '.product-details__short-description',
+  );
   const $options = fragment.querySelector('.product-details__options');
   const $quantity = fragment.querySelector('.product-details__quantity');
-  const $addToCart = fragment.querySelector('.product-details__buttons__add-to-cart');
-  const $addToWishlist = fragment.querySelector('.product-details__buttons__add-to-wishlist');
+  const $addToCart = fragment.querySelector(
+    '.product-details__buttons__add-to-cart',
+  );
+  const $addToWishlist = fragment.querySelector(
+    '.product-details__buttons__add-to-wishlist',
+  );
   const $description = fragment.querySelector('.product-details__description');
   const $attributes = fragment.querySelector('.product-details__attributes');
 
@@ -148,7 +158,9 @@ export default async function decorate(block) {
 
           // add the product to the cart
           if (valid) {
-            const { addProductsToCart } = await import('@dropins/storefront-cart/api.js');
+            const { addProductsToCart } = await import(
+              '@dropins/storefront-cart/api.js'
+            );
             await addProductsToCart([{ ...values }]);
           }
 
@@ -221,103 +233,28 @@ export default async function decorate(block) {
   ]);
 
   // Lifecycle Events
-  events.on('pdp/valid', (valid) => {
-    // update add to cart button disabled state based on product selection validity
-    addToCart.setProps((prev) => ({ ...prev, disabled: !valid }));
-  }, { eager: true });
+  events.on(
+    'pdp/valid',
+    (valid) => {
+      // update add to cart button disabled state based on product selection validity
+      addToCart.setProps((prev) => ({ ...prev, disabled: !valid }));
+    },
+    { eager: true },
+  );
 
   // Set JSON-LD and Meta Tags
-  events.on('aem/lcp', () => {
-    if (product) {
-      setJsonLdProduct(product);
-      setMetaTags(product);
-      document.title = product.name;
-    }
-  }, { eager: true });
+  events.on(
+    'aem/lcp',
+    () => {
+      if (product) {
+        setMetaTags(product);
+        document.title = product.name;
+      }
+    },
+    { eager: true },
+  );
 
   return Promise.resolve();
-}
-
-async function setJsonLdProduct(product) {
-  const {
-    name,
-    inStock,
-    description,
-    sku,
-    urlKey,
-    price,
-    priceRange,
-    images,
-    attributes,
-  } = product;
-  const amount = priceRange?.minimum?.final?.amount || price?.final?.amount;
-  const brand = attributes.find((attr) => attr.name === 'brand');
-
-  // get variants
-  const { data } = await pdpApi.fetchGraphQl(`
-    query GET_PRODUCT_VARIANTS($sku: String!) {
-      variants(sku: $sku) {
-        variants {
-          product {
-            sku
-            name
-            inStock
-            images(roles: ["image"]) {
-              url
-            }
-            ...on SimpleProductView {
-              price {
-                final { amount { currency value } }
-              }
-            }
-          }
-        }
-      }
-    }
-  `, {
-    method: 'GET',
-    variables: { sku },
-  });
-
-  const variants = data?.variants?.variants || [];
-
-  const ldJson = {
-    '@context': 'http://schema.org',
-    '@type': 'Product',
-    name,
-    description,
-    image: images[0]?.url,
-    offers: [],
-    productID: sku,
-    brand: {
-      '@type': 'Brand',
-      name: brand?.value,
-    },
-    url: new URL(rootLink(`/products/${urlKey}/${sku}`), window.location),
-    sku,
-    '@id': new URL(rootLink(`/products/${urlKey}/${sku}`), window.location),
-  };
-
-  if (variants.length > 1) {
-    ldJson.offers.push(...variants.map((variant) => ({
-      '@type': 'Offer',
-      name: variant.product.name,
-      image: variant.product.images[0]?.url,
-      price: variant.product.price.final.amount.value,
-      priceCurrency: variant.product.price.final.amount.currency,
-      availability: variant.product.inStock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
-      sku: variant.product.sku,
-    })));
-  } else {
-    ldJson.offers.push({
-      '@type': 'Offer',
-      price: amount?.value,
-      priceCurrency: amount?.currency,
-      availability: inStock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
-    });
-  }
-
-  setJsonLd(ldJson, 'product');
 }
 
 function createMetaTag(property, content, type) {
@@ -348,7 +285,8 @@ function setMetaTags(product) {
     return;
   }
 
-  const price = product.prices.final.minimumAmount ?? product.prices.final.amount;
+  const price =
+    product.prices.final.minimumAmount ?? product.prices.final.amount;
 
   createMetaTag('title', product.metaTitle || product.name, 'name');
   createMetaTag('description', product.metaDescription, 'name');
@@ -358,7 +296,9 @@ function setMetaTags(product) {
   createMetaTag('og:description', product.shortDescription, 'property');
   createMetaTag('og:title', product.metaTitle || product.name, 'property');
   createMetaTag('og:url', window.location.href, 'property');
-  const mainImage = product?.images?.filter((image) => image.roles.includes('thumbnail'))[0];
+  const mainImage = product?.images?.filter((image) =>
+    image.roles.includes('thumbnail'),
+  )[0];
   const metaImage = mainImage?.url || product?.images[0]?.url;
   createMetaTag('og:image', metaImage, 'property');
   createMetaTag('og:image:secure_url', metaImage, 'property');
