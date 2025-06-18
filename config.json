@@ -1,7 +1,7 @@
 {
   "public": {
     "default": {
-      "commerce-core-endpoint": "https://m2.one-int.cultura.com/graphql",
+      "commerce-core-endpoint": "https://www.cultura.com/magento/graphql",
       "commerce-endpoint": "https://www.aemshop.net/cs-graphql",
       "headers": {
         "all": {
