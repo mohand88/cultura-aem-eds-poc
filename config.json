@@ -1,7 +1,7 @@
 {
   "public": {
     "default": {
-      "commerce-core-endpoint": "http://localhost:4000/proxy/graphql",
+      "commerce-core-endpoint": "https://m2.one-int.cultura.com/graphql",
       "commerce-endpoint": "https://www.aemshop.net/cs-graphql",
       "headers": {
         "all": {
@@ -29,8 +29,8 @@
       },
       "plugins": {
         "picker": {
-           "rootCategory": "2"
-         }
+          "rootCategory": "2"
+        }
       }
     }
   }

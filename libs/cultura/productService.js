@@ -1,7 +1,8 @@
 import { getParsedProduct } from "./productUtils.js";
 
 export const fetchProductDataCultura = async (urlKey) => {
-  const endpoint = "http://localhost:4000/proxy/graphql"; // Remplace par l'URL de ton serveur GraphQL
+  const endpoint = "https://m2.one-int.cultura.com/graphql";
+  // const endpoint = "http://localhost:4000/proxy/graphql";
 
   const query = `
     query GET_PRODUCT_DATA_CULTURA($urlKey: String!) {
