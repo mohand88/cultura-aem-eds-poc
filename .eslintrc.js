@@ -32,5 +32,6 @@ module.exports = {
     "padding-line-between-statements": "off", // désactive la règle des lignes vides entre les blocs
     "import/prefer-default-export": "off", // désactive la règle qui préfère les exports par défaut
     quotes: "off",
+    "comma-dangle": "off", // désactive l'exigence des virgules de fin
   },
 };
