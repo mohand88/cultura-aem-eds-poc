@@ -37,7 +37,7 @@ export const fetchProductDataCultura = async (urlKey) => {
 
   try {
     const response = await fetch(endpoint, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
