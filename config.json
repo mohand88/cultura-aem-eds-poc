@@ -1,7 +1,7 @@
 {
   "public": {
     "default": {
-      "commerce-core-endpoint": "http://localhost:4000/proxy/graphql",
+      "commerce-core-endpoint": "https://e75f-130-41-134-133.ngrok-free.app/proxy/graphql",
       "commerce-endpoint": "https://www.aemshop.net/cs-graphql",
       "headers": {
         "all": {
