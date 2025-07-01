@@ -1,7 +1,7 @@
 import { getParsedProduct } from "./productUtils.js";
 
 export const fetchProductDataCultura = async (urlKey) => {
-  //const endpoint = "https://www.cultura.com/magento/graphql";
+  // const endpoint = "https://www.cultura.com/magento/graphql";
   const endpoint = "http://localhost:4000/proxy/graphql";
 
   const query = `
@@ -33,18 +33,15 @@ export const fetchProductDataCultura = async (urlKey) => {
     }
   `;
 
-  const variables = { urlKey };
-
   try {
-    const response = await fetch(endpoint, {
+    const variables = JSON.stringify({ urlKey });
+    const params = new URLSearchParams({ query, variables });
+
+    const response = await fetch(`${endpoint}?${params.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
     });
 
     if (!response.ok) {
