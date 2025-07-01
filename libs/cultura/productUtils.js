@@ -26,12 +26,12 @@ export const getParsedProduct = (p) => ({
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   images: [
     {
-      url: `https://cdn-recette.cultura.com/cdn-cgi/image/width=${IMAGES_SIZES.width},height=${IMAGES_SIZES.height}/${p.image.url}`,
+      url: `https://cdn.cultura.com/cdn-cgi/image/width=${IMAGES_SIZES.width},height=${IMAGES_SIZES.height}/${p.image.url}`,
       label: "",
       roles: ["image", "small_image", "thumbnail", "swatch_image"],
     },
     {
-      url: `https://cdn-recette.cultura.com/cdn-cgi/image/width=${IMAGES_SIZES.width},height=${IMAGES_SIZES.height}/${p.image.url}`,
+      url: `https://cdn.cultura.com/cdn-cgi/image/width=${IMAGES_SIZES.width},height=${IMAGES_SIZES.height}/${p.image.url}`,
     },
   ],
   attributes: [
