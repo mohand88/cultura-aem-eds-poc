@@ -32,6 +32,8 @@ export const getParsedProduct = (p) => ({
     },
     {
       url: `https://cdn.cultura.com/cdn-cgi/image/width=${IMAGES_SIZES.width},height=${IMAGES_SIZES.height}/${p.image.url}`,
+      roles: ["image", "small_image", "thumbnail", "swatch_image"],
+      label: "",
     },
   ],
   attributes: [

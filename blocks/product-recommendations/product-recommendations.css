@@ -29,7 +29,7 @@
     overflow: hidden;
     box-sizing: border-box;
     margin: 0;
-    padding: .5rem 1rem 0 0;
+    padding: 0.5rem 1rem 0 0;
     display: inline-block;
 }
 
@@ -66,4 +66,10 @@
     .product-recommendations {
         min-height: 534px;
     }
+}
+
+.footer__wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
