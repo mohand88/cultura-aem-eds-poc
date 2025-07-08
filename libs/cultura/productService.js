@@ -1,9 +1,8 @@
+import { getConfigValue } from "../../scripts/configs.js";
 import { getParsedProduct } from "./productUtils.js";
 
 export const fetchProductDataCultura = async (urlKey) => {
-  // const endpoint = "https://www.cultura.com/magento/graphql";
-  // const endpoint = "https://e75f-130-41-134-133.ngrok-free.app/proxy/graphql";
-  const endpoint = "http://localhost:4000/proxy/graphql";
+  const apiEndpoint = getConfigValue("commerce-core-endpoint");
 
   const query = `
     query GET_PRODUCT_DATA_CULTURA($urlKey: String!) {
@@ -321,7 +320,7 @@ export const fetchProductDataCultura = async (urlKey) => {
     const variables = JSON.stringify({ urlKey });
     const params = new URLSearchParams({ query, variables });
 
-    const response = await fetch(`${endpoint}?${params.toString()}`, {
+    const response = await fetch(`${apiEndpoint}?${params.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
