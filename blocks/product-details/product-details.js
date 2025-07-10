@@ -1,6 +1,8 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable padding-line-between-statements */
 
+import { h, render } from "https://esm.sh/preact";
+
 import * as pdpApi from "@dropins/storefront-pdp/api.js";
 import { render as pdpRendered } from "@dropins/storefront-pdp/render.js";
 import {
@@ -28,6 +30,7 @@ import { fetchPlaceholders } from "../../scripts/commerce.js";
 import { addProductToCart } from "../../libs/cultura/cart/cartServices.js";
 import "../../scripts/initializers/cart.js";
 import { IMAGES_SIZES } from "../../scripts/initializers/pdp.js";
+import { ProductStock } from "./components/productStock.js";
 
 export default async function decorate(block) {
   // eslint-disable-next-line no-underscore-dangle
@@ -48,6 +51,9 @@ export default async function decorate(block) {
         <div class="product-details__price"></div>
         <div class="product-details__gallery"></div>
         <div class="product-details__short-description"></div>
+
+        <div class="product-details__stock"></div>
+
         <div class="product-details__configuration">
           <div class="product-details__options"></div>
           <div class="product-details__quantity"></div>
@@ -72,6 +78,7 @@ export default async function decorate(block) {
   const $shortDescription = fragment.querySelector(
     ".product-details__short-description"
   );
+  const $stock = fragment.querySelector(".product-details__stock");
   const $options = fragment.querySelector(".product-details__options");
   const $quantity = fragment.querySelector(".product-details__quantity");
   const $addToCart = fragment.querySelector(
@@ -134,6 +141,9 @@ export default async function decorate(block) {
 
     // Short Description
     pdpRendered.render(ProductShortDescription, {})($shortDescription),
+
+    // Product Stock
+    render(h(ProductStock, { product }), $stock),
 
     // Configuration - Swatches
     pdpRendered.render(ProductOptions, { hideSelectedValue: false })($options),

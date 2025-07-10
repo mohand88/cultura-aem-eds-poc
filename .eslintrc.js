@@ -33,5 +33,6 @@ module.exports = {
     "import/prefer-default-export": "off", // désactive la règle qui préfère les exports par défaut
     quotes: "off",
     "comma-dangle": "off", // désactive l'exigence des virgules de fin
+    "import/no-unresolved": "off", // désactive la résolution des modules pour permettre les imports d'URL
   },
 };

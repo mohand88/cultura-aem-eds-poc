@@ -1,4 +1,5 @@
 import { getConfigValue } from "../../scripts/configs.js";
+import { fetchProductStocks } from "./product/productActions.js";
 import { getParsedProduct } from "./productUtils.js";
 
 export const fetchProductDataCultura = async (urlKey) => {
@@ -339,4 +340,14 @@ export const fetchProductDataCultura = async (urlKey) => {
     console.error("Erreur lors de la récupération des données :", error);
     return null;
   }
+};
+
+export const getProductStock = async (sku) => {
+  const stocks = await fetchProductStocks(sku);
+
+  if (!stocks) {
+    return null;
+  }
+
+  return stocks.find((stock) => stock.sku === sku);
 };
