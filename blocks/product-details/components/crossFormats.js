@@ -26,5 +26,26 @@ export const CrossFormats = ({ product }) => {
       { class: "stock-value" },
       crossFormats?.total_count ?? "Chargement..."
     ),
+    h("div", null, [
+      crossFormats?.items?.length > 0 &&
+        h(
+          "select",
+          {
+            class: "cross-formats-select",
+          },
+          [
+            ...crossFormats.items.map((format) =>
+              h(
+                "option",
+                {
+                  value: format.url_key,
+                  selected: format.sku === product.sku,
+                },
+                `${format.cross_format_label} - ${format.price_range.minimum_price.final_price.value} €`
+              )
+            ),
+          ]
+        ),
+    ]),
   ]);
 };
