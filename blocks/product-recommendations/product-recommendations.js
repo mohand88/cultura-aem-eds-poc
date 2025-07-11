@@ -5,7 +5,7 @@ import { readBlockConfig } from "../../scripts/aem.js";
 import { getConfigValue } from "../../scripts/configs.js";
 
 // initialize dropins
-import { fetchRecommandations } from "../../libs/cultura/recommendationService.js";
+import { fetchRecommandations } from "../../libs/cultura/product/productActions.js";
 import { getSkuFromUrl } from "../../scripts/commerce.js";
 import "../../scripts/initializers/cart.js";
 import { rootLink } from "../../scripts/scripts.js";

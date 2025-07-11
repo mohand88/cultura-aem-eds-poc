@@ -1,6 +1,6 @@
 import { h } from "https://esm.sh/preact";
 import { useEffect, useState } from "https://esm.sh/preact/hooks";
-import { getProductStock } from "../../../libs/cultura/productService.js";
+import { getProductStock } from "../../../libs/cultura/product/productService.js";
 
 export const ProductStock = ({ product }) => {
   const [stock, setStock] = useState(null);

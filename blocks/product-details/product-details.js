@@ -30,6 +30,7 @@ import { fetchPlaceholders } from "../../scripts/commerce.js";
 import { addProductToCart } from "../../libs/cultura/cart/cartServices.js";
 import "../../scripts/initializers/cart.js";
 import { IMAGES_SIZES } from "../../scripts/initializers/pdp.js";
+import { CrossFormats } from "./components/crossFormats.js";
 import { ProductStock } from "./components/productStock.js";
 
 export default async function decorate(block) {
@@ -53,6 +54,7 @@ export default async function decorate(block) {
         <div class="product-details__short-description"></div>
 
         <div class="product-details__stock"></div>
+        <div class="product-details__cross-formats"></div>
 
         <div class="product-details__configuration">
           <div class="product-details__options"></div>
@@ -79,6 +81,9 @@ export default async function decorate(block) {
     ".product-details__short-description"
   );
   const $stock = fragment.querySelector(".product-details__stock");
+  const $crossFormats = fragment.querySelector(
+    ".product-details__cross-formats"
+  );
   const $options = fragment.querySelector(".product-details__options");
   const $quantity = fragment.querySelector(".product-details__quantity");
   const $addToCart = fragment.querySelector(
@@ -144,6 +149,9 @@ export default async function decorate(block) {
 
     // Product Stock
     render(h(ProductStock, { product }), $stock),
+
+    // Cross Formats
+    render(h(CrossFormats, { product }), $crossFormats),
 
     // Configuration - Swatches
     pdpRendered.render(ProductOptions, { hideSelectedValue: false })($options),

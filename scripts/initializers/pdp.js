@@ -7,7 +7,7 @@ import {
   setFetchGraphQlHeaders,
 } from "@dropins/storefront-pdp/api.js";
 import { initializers } from "@dropins/tools/initializer.js";
-import { fetchProductDataCultura } from "../../libs/cultura/productService.js";
+import { getProductDataCultura } from "../../libs/cultura/product/productService.js";
 import {
   commerceEndpointWithQueryParams,
   fetchPlaceholders,
@@ -36,7 +36,7 @@ await initializeDropin(async () => {
 
   const [labels] = await Promise.all([fetchPlaceholders()]);
 
-  const product = await fetchProductDataCultura(sku);
+  const product = await getProductDataCultura(sku);
 
   if (!product?.sku) {
     return loadErrorPage();

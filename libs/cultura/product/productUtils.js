@@ -57,4 +57,5 @@ export const getParsedProduct = (p) => ({
   inStock: true,
   addToCartAllowed: true,
   url: `${window.location.origin}/products/${p.url_key}`,
+  variantSku: p.erp_product_code,
 });
