@@ -1,4 +1,9 @@
-import { addSimpleProductToCart, createEmptyCart } from "./cartActions.js";
+import {
+  addSimpleProductToCart,
+  createEmptyCart,
+  getCart,
+} from "./cartActions.js";
+import { parseToAEMCart } from "./cartUtils.js";
 
 export const getCartId = async () => {
   // check if cartId is in local storage
@@ -22,4 +27,12 @@ export const addProductToCart = async (sku) => {
   const { cart } = await addSimpleProductToCart(cartId, sku);
 
   return cart;
+};
+
+export const getCartDetails = async () => {
+  const cartId = await getCartId();
+
+  const cart = await getCart(cartId);
+
+  return parseToAEMCart(cart);
 };
