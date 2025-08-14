@@ -1,36 +1,37 @@
-import { events } from '@dropins/tools/event-bus.js';
-import { render as provider } from '@dropins/storefront-cart/render.js';
-import * as Cart from '@dropins/storefront-cart/api.js';
+import * as Cart from "@dropins/storefront-cart/api.js";
+import { render as provider } from "@dropins/storefront-cart/render.js";
+import { events } from "@dropins/tools/event-bus.js";
 
 // Dropin Containers
-import CartSummaryList from '@dropins/storefront-cart/containers/CartSummaryList.js';
-import OrderSummary from '@dropins/storefront-cart/containers/OrderSummary.js';
-import EstimateShipping from '@dropins/storefront-cart/containers/EstimateShipping.js';
-import EmptyCart from '@dropins/storefront-cart/containers/EmptyCart.js';
-import Coupons from '@dropins/storefront-cart/containers/Coupons.js';
-import GiftCards from '@dropins/storefront-cart/containers/GiftCards.js';
-import GiftOptions from '@dropins/storefront-cart/containers/GiftOptions.js';
+import OrderSummary from "@dropins/storefront-cart/containers/OrderSummary.js";
+
+import Coupons from "@dropins/storefront-cart/containers/Coupons.js";
+import EmptyCart from "@dropins/storefront-cart/containers/EmptyCart.js";
+import EstimateShipping from "@dropins/storefront-cart/containers/EstimateShipping.js";
+import GiftCards from "@dropins/storefront-cart/containers/GiftCards.js";
+import GiftOptions from "@dropins/storefront-cart/containers/GiftOptions.js";
 
 // API
-import { publishShoppingCartViewEvent } from '@dropins/storefront-cart/api.js';
+import { publishShoppingCartViewEvent } from "@dropins/storefront-cart/api.js";
 
 // Initializers
-import '../../scripts/initializers/cart.js';
+import "../../scripts/initializers/cart.js";
 
-import { readBlockConfig } from '../../scripts/aem.js';
-import { rootLink } from '../../scripts/scripts.js';
+import { readBlockConfig } from "../../scripts/aem.js";
+import { rootLink } from "../../scripts/scripts.js";
+import CustomCartSummaryList from "./CustomCartSummaryList.js";
 
 export default async function decorate(block) {
   // Configuration
   const {
-    'hide-heading': hideHeading = 'false',
-    'max-items': maxItems,
-    'hide-attributes': hideAttributes = '',
-    'enable-item-quantity-update': enableUpdateItemQuantity = 'false',
-    'enable-item-remove': enableRemoveItem = 'true',
-    'enable-estimate-shipping': enableEstimateShipping = 'false',
-    'start-shopping-url': startShoppingURL = '',
-    'checkout-url': checkoutURL = '',
+    "hide-heading": hideHeading = "false",
+    "max-items": maxItems,
+    "hide-attributes": hideAttributes = "",
+    "enable-item-quantity-update": enableUpdateItemQuantity = "false",
+    "enable-item-remove": enableRemoveItem = "true",
+    "enable-estimate-shipping": enableEstimateShipping = "false",
+    "start-shopping-url": startShoppingURL = "",
+    "checkout-url": checkoutURL = "",
   } = readBlockConfig(block);
 
   const cart = Cart.getCartDataFromCache();
@@ -52,23 +53,23 @@ export default async function decorate(block) {
     <div class="cart__empty-cart"></div>
   `);
 
-  const $wrapper = fragment.querySelector('.cart__wrapper');
-  const $list = fragment.querySelector('.cart__list');
-  const $summary = fragment.querySelector('.cart__order-summary');
-  const $emptyCart = fragment.querySelector('.cart__empty-cart');
-  const $giftOptions = fragment.querySelector('.cart__gift-options');
+  const $wrapper = fragment.querySelector(".cart__wrapper");
+  const $list = fragment.querySelector(".cart__list");
+  const $summary = fragment.querySelector(".cart__order-summary");
+  const $emptyCart = fragment.querySelector(".cart__empty-cart");
+  const $giftOptions = fragment.querySelector(".cart__gift-options");
 
-  block.innerHTML = '';
+  block.innerHTML = "";
   block.appendChild(fragment);
 
   // Toggle Empty Cart
   function toggleEmptyCart(state) {
     if (state) {
-      $wrapper.setAttribute('hidden', '');
-      $emptyCart.removeAttribute('hidden');
+      $wrapper.setAttribute("hidden", "");
+      $emptyCart.removeAttribute("hidden");
     } else {
-      $wrapper.removeAttribute('hidden');
-      $emptyCart.setAttribute('hidden', '');
+      $wrapper.removeAttribute("hidden");
+      $emptyCart.setAttribute("hidden", "");
     }
   }
 
@@ -77,55 +78,74 @@ export default async function decorate(block) {
   // Render Containers
   await Promise.all([
     // Cart List
-    provider.render(CartSummaryList, {
-      hideHeading: hideHeading === 'true',
-      routeProduct: (product) => rootLink(`/products/${product.url.urlKey}/${product.topLevelSku}`),
-      routeEmptyCartCTA: startShoppingURL ? () => rootLink(startShoppingURL) : undefined,
-      maxItems: parseInt(maxItems, 10) || undefined,
-      attributesToHide: hideAttributes
-        .split(',')
-        .map((attr) => attr.trim().toLowerCase()),
-      enableUpdateItemQuantity: enableUpdateItemQuantity === 'true',
-      enableRemoveItem: enableRemoveItem === 'true',
-      slots: {
-        Footer: (ctx) => {
-          const giftOptions = document.createElement('div');
+    // provider.render(CartSummaryList, {
+    //   hideHeading: hideHeading === "true",
+    //   routeProduct: (product) => rootLink(`/products/test/${product.urlKey}`),
+    //   routeEmptyCartCTA: startShoppingURL
+    //     ? () => rootLink(startShoppingURL)
+    //     : undefined,
+    //   maxItems: parseInt(maxItems, 10) || undefined,
+    //   attributesToHide: hideAttributes
+    //     .split(",")
+    //     .map((attr) => attr.trim().toLowerCase()),
+    //   enableUpdateItemQuantity: enableUpdateItemQuantity === "true",
+    //   enableRemoveItem: enableRemoveItem === "true",
+    //   slots: {
+    //     Footer: (ctx) => {
+    //       const giftOptions = document.createElement("div");
 
-          provider.render(GiftOptions, {
-            item: ctx.item,
-            view: 'product',
-            dataSource: 'cart',
-            handleItemsLoading: ctx.handleItemsLoading,
-            handleItemsError: ctx.handleItemsError,
-            onItemUpdate: ctx.onItemUpdate,
-          })(giftOptions);
+    //       provider.render(GiftOptions, {
+    //         item: ctx.item,
+    //         view: "product",
+    //         dataSource: "cart",
+    //         handleItemsLoading: ctx.handleItemsLoading,
+    //         handleItemsError: ctx.handleItemsError,
+    //         onItemUpdate: ctx.onItemUpdate,
+    //       })(giftOptions);
 
-          ctx.appendChild(giftOptions);
-        },
-      },
-    })($list),
+    //       ctx.appendChild(giftOptions);
+    //     },
+    //   },
+    // })($list),
+
+    // Cart List - Utilisation du composant personnalisé
+    // eslint-disable-next-line consistent-return
+    (() => {
+      try {
+        return new CustomCartSummaryList($list, {
+          routeProduct: (product) =>
+            rootLink(`/products/test/${product.urlKey}`),
+        });
+      } catch (error) {
+        console.error(
+          "Erreur lors de l'initialisation du CustomCartSummaryList:",
+          error
+        );
+      }
+    })(),
 
     // Order Summary
     provider.render(OrderSummary, {
-      routeProduct: (product) => rootLink(`/products/${product.url.urlKey}/${product.topLevelSku}`),
+      routeProduct: (product) =>
+        rootLink(`/products/${product.url.urlKey}/${product.topLevelSku}`),
       routeCheckout: checkoutURL ? () => rootLink(checkoutURL) : undefined,
       slots: {
         EstimateShipping: async (ctx) => {
-          if (enableEstimateShipping === 'true') {
-            const wrapper = document.createElement('div');
+          if (enableEstimateShipping === "true") {
+            const wrapper = document.createElement("div");
             await provider.render(EstimateShipping, {})(wrapper);
             ctx.replaceWith(wrapper);
           }
         },
         Coupons: (ctx) => {
-          const coupons = document.createElement('div');
+          const coupons = document.createElement("div");
 
           provider.render(Coupons)(coupons);
 
           ctx.appendChild(coupons);
         },
         GiftCards: (ctx) => {
-          const giftCards = document.createElement('div');
+          const giftCards = document.createElement("div");
 
           provider.render(GiftCards)(giftCards);
 
@@ -140,15 +160,15 @@ export default async function decorate(block) {
     })($emptyCart),
 
     provider.render(GiftOptions, {
-      view: 'order',
-      dataSource: 'cart',
+      view: "order",
+      dataSource: "cart",
     })($giftOptions),
   ]);
 
   let cartViewEventPublished = false;
   // Events
   events.on(
-    'cart/data',
+    "cart/data",
     (payload) => {
       toggleEmptyCart(isCartEmpty(payload));
 
@@ -157,7 +177,7 @@ export default async function decorate(block) {
         publishShoppingCartViewEvent();
       }
     },
-    { eager: true },
+    { eager: true }
   );
 
   return Promise.resolve();

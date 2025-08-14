@@ -20,6 +20,7 @@ export const parseToAEMCart = (culturaCart) => {
       categories: ["All", "Apparel"],
       quantity: item.quantity,
       sku: item.product.sku,
+      urlKey: item.product.url_key,
       topLevelSku: item.product.sku,
       name: item.product.name,
       image: {

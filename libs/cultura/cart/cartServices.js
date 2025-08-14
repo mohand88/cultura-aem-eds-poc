@@ -2,6 +2,8 @@ import {
   addSimpleProductToCart,
   createEmptyCart,
   getCart,
+  removeItemFromCart,
+  updateCartItemQuantity,
 } from "./cartActions.js";
 import { parseToAEMCart } from "./cartUtils.js";
 
@@ -33,6 +35,22 @@ export const getCartDetails = async () => {
   const cartId = await getCartId();
 
   const cart = await getCart(cartId);
+
+  return parseToAEMCart(cart);
+};
+
+export const setCartItemQuantity = async (itemId, quantity) => {
+  const cartId = await getCartId();
+
+  const { cart } = await updateCartItemQuantity(cartId, itemId, quantity);
+
+  return parseToAEMCart(cart);
+};
+
+export const removeCartItem = async (itemId) => {
+  const cartId = await getCartId();
+
+  const { cart } = await removeItemFromCart(cartId, itemId);
 
   return parseToAEMCart(cart);
 };
